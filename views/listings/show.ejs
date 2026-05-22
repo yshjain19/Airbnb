@@ -32,4 +32,59 @@
                     </span>
             </div>
         </div>
+        <!-- Review -->
+        <div class="container mt-5">
+
+    <div class="card shadow border-0 rounded-4 p-4">
+
+        <h3 class="mb-4">Leave a Review</h3>
+
+        <form>
+
+            <!-- Comment -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    Comment
+                </label>
+
+                <textarea
+                    class="form-control rounded-3"
+                    rows="4"
+                    placeholder="Write your review here..."
+                    required
+                ></textarea>
+            </div>
+
+            <!-- Rating Slider -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">
+                    Rating:
+                    <span id="ratingValue">3</span> ⭐
+                </label>
+
+                <input
+                    type="range"
+                    class="form-range"
+                    min="1"
+                    max="5"
+                    step="1"
+                    value="3"
+                    id="rating"
+                    oninput="ratingValue.innerText=this.value"
+                >
+            </div>
+
+            <!-- Submit Button -->
+            <button
+                type="submit"
+                class="btn btn-dark rounded-pill px-4"
+            >
+                Submit Review
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
     </body>

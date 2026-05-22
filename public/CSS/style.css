@@ -23,16 +23,17 @@ body {
 
 /* Footer styling */
 .footer {
-  background-color: #f7f7f7; /* light background */
-  text-align: center;        /* center content */
-  padding: 20px 10px;        /* spacing inside footer */
-  border-top: 1px solid #ddd;/* top border line */
-  position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
+  background-color: #f7f7f7;
+  text-align: center;
+  padding: 30px 10px 20px; /* more top padding */
+  margin-top: 50px;        /* space above footer */
+  border-top: 1px solid #ddd;
 
+  /* position: fixed; */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 .social-icons {
   margin-bottom: 10px;       /* space below icons */
 }
