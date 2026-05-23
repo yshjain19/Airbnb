@@ -31,12 +31,13 @@
                     </form>
                     <form method="post" action="/listings/<%= data._id %>?_method=Delete">
                         <button class="btn btn-primary">Delete</button>
+
+                    </form>
                 </span>
-                </form>
             </div>
         </div>
         <hr style="border: 2px solid black !important; opacity: 0.2 !important;">
-        <!-- Review -->
+        <!-- Review  form-->
         <div class="container mt-5">
 
             <div class="card shadow border-0 rounded-4 p-4">
@@ -52,19 +53,20 @@
                         </label>
 
                         <textarea class="form-control rounded-3" rows="4" placeholder="Write your review here..."
-                            required name="review[Comment] invalid-feedback
-                            "></textarea>
+                            required name="review[Comment]"></textarea>
+
+                        <div class="invalid-feedback"> Please submit comment for review</div>
                     </div>
 
                     <!-- Rating Slider -->
                     <div class="mb-4">
                         <label class="form-label fw-semibold">
-                            Rating: 
+                            Rating:
                             <span id="ratingValue">3</span> ⭐
                         </label>
 
                         <input type="range" class="form-range" min="1" max="5" step="1" value="3" id="rating"
-                            oninput="ratingValue.innerText=this.value " name="review[Comment]">
+                            oninput="ratingValue.innerText=this.value " name="review[rating]">
                     </div>
 
                     <!-- Submit Button -->
@@ -73,6 +75,47 @@
                     </button>
 
                 </form>
+
+            </div>
+
+        </div>
+        <!--  show reviews -->
+        <hr />
+        <h3>All reviews</h3>
+        <!-- <p><%=data.reviews%></p> -->
+        <div class="container mt-4">
+
+            <h4 class="mb-3">Reviews</h4>
+
+            <div class="row">
+
+                <% for(let rev of data.reviews){ %>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm border-0 rounded-4 h-100">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+                                    ⭐ <%= rev.rating %>/5
+                                </h5>
+
+                                <p class="card-text text-muted">
+                                    <%= rev.Comment %>
+                                </p>
+                                <form method="post" action="/listings/<%= data._id %>/review/<%= rev._id %>?_method=DELETE">
+
+                                    <button class="btn btn-dark">
+                                        Delete
+                                    </button>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <% } %>
 
             </div>
 
