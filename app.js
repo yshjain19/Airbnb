@@ -74,11 +74,11 @@ app.get("/listings/:id",
         let { id } = req.params;
         let data = await Listing.findById(id).populate("reviews");
         res.render("show", { data });
-        console.log(data);
+        
     }))
 app.post("/listings", validateListing, wrapAsync(async (req, res) => {
     let { title, description, image, price, country, location } = req.body;
-    // console.log(req.body);
+  
     let sample = new Listing({
         title: title,
         description: description,
@@ -86,8 +86,7 @@ app.post("/listings", validateListing, wrapAsync(async (req, res) => {
         location: location,
         country: country,
     })
-    // let result=listingsSchema.validate(req.body);
-    // console.log(result);
+    
     await sample.save()
     res.redirect("/listings");
 }));
@@ -96,7 +95,7 @@ app.get("/listings/:id/edit",
     wrapAsync(async (req, res) => {
         let { id } = req.params;
         let post = await Listing.findById(id);
-        console.log(post);
+        
         res.render("edit", { post });
     }))
 app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
@@ -134,8 +133,7 @@ app.delete("/listings/:id/review/:review_id",wrapAsync(async(req,res)=>{
     let {id , review_id} = req.params;
     await Reviews.findByIdAndDelete(review_id);
     await Listing.findByIdAndUpdate(id,{$pull:{reviews:review_id}});
-    // console.log(id);
-    // console.log(review_id);
+   
     res.redirect(`/listings/${id}`);
 }))
 app.use((req, res, next) => {
