@@ -23,11 +23,11 @@ const validateListing = (req, res, next) => {
 router.get("/",
     wrapAsync(async (req, res) => {
         let alllistings = await Listing.find({})
-        res.render("index", { alllistings });
+        res.render("listings/index", { alllistings });
     }))
 // ===================== SHOW NEW LISTING FORM =====================
 router.get("/new", (req, res) => {
-    res.render("new");
+    res.render("listings/new");
 })
 // ===================== SHOW SINGLE LISTING =====================
 router.get("/:id",
@@ -38,7 +38,7 @@ router.get("/:id",
             req.flash("error", " Listing you requested does not exist!");
             return res.redirect("/listings");
         }
-        res.render("show", { data });
+        res.render("listings/show", { data });
 
     }))
 // ===================== CREATE NEW LISTING =====================
@@ -68,7 +68,7 @@ router.get("/:id/edit",
             req.flash("error", " Listing you requested does not exist!");
             return res.redirect("/listings");
         }
-        res.render("edit", { post });
+        res.render("listings/edit", { post });
     }))
 // ===================== UPDATE LISTING =====================
 router.put("/:id", validateListing, wrapAsync(async (req, res) => {
