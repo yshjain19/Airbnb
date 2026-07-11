@@ -5,8 +5,8 @@ const Listing = require("../MODELS/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const expressError = require("../utils/expressError.js");
 const { listingsSchema } = require("../schema.js");
-
-
+const {isloggidn} = require("../middleware.js");
+const passport = require("passport");
 // Validate listing data before saving/updating
 
 const validateListing = (req, res, next) => {
@@ -26,12 +26,11 @@ router.get("/",
         res.render("listings/index", { alllistings });
     }))
 // ===================== SHOW NEW LISTING FORM =====================
-router.get("/new", (req, res) => {
+router.get("/new",isloggidn ,(req, res) => {
     res.render("listings/new");
 })
 // ===================== SHOW SINGLE LISTING =====================
-router.get("/:id",
-    wrapAsync(async (req, res) => {
+router.get("/:id",wrapAsync(async (req, res) => {
         let { id } = req.params;
         let data = await Listing.findById(id).populate("reviews");
         if (!data) {
@@ -42,7 +41,7 @@ router.get("/:id",
 
     }))
 // ===================== CREATE NEW LISTING =====================
-router.post("/", validateListing, wrapAsync(async (req, res) => {
+router.post("/", isloggidn,validateListing ,wrapAsync(async (req, res) => {
     let { title, description, image, price, country, location } = req.body;
 
     let sample = new Listing({
@@ -60,8 +59,7 @@ router.post("/", validateListing, wrapAsync(async (req, res) => {
 }));
 // ===================== SHOW EDIT FORM =====================
 
-router.get("/:id/edit",
-    wrapAsync(async (req, res) => {
+router.get("/:id/edit",isloggidn, wrapAsync(async (req, res) => {
         let { id } = req.params;
         let post = await Listing.findById(id);
         if (!post) {
@@ -71,7 +69,7 @@ router.get("/:id/edit",
         res.render("listings/edit", { post });
     }))
 // ===================== UPDATE LISTING =====================
-router.put("/:id", validateListing, wrapAsync(async (req, res) => {
+router.put("/:id", validateListing,isloggidn, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let { title, description, image, price, country, location } = req.body;
     await Listing.findByIdAndUpdate(id, {
@@ -86,7 +84,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 // ===================== DELETE LISTING =====================
-router.delete("/:id",
+router.delete("/:id",isloggidn,
     wrapAsync(async (req, res) => {
         let { id } = req.params;
         let data = await Listing.findByIdAndDelete(id);

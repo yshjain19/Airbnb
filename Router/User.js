@@ -1,14 +1,14 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router({ mergeParams: true });
 const User = require("../MODELS/user.js")
 
+// show signup page
 router.get("/signup", (req, res, next) => {
      res.render("User/signup");
-     
 });
 
-
-
+// save signup information
 router.post("/signup", async (req, res) => {
      try {
           const { username, email, password } = req.body;
@@ -20,14 +20,48 @@ router.post("/signup", async (req, res) => {
 
           const registeredUser = await User.register(newUser, password);
 
-          req.flash("success", "Welcome to Wanderlust!");
+          req.login(registeredUser, (err) => {
+               if (err) {
+                    req.flash("error", err.message);
+                    return res.redirect("/signup");
+               }
 
-          res.redirect("/listings");
+               req.flash("success", "Welcome to Wanderlust!");
+               res.redirect("/listings");
+          });
      } catch (err) {
           req.flash("error", err.message);
           res.redirect("/signup");
      }
 });
 
+// show login page
+router.get("/login", async (req, res, next) => {
+     res.render("User/login");
+});
+
+// handle login submission
+router.post(
+     "/login",
+     passport.authenticate("local", {
+          failureRedirect: "/login",
+          failureFlash: true
+     }),
+     (req, res) => {
+          req.flash("success", "Welcome back!");
+          res.redirect("/listings");
+     }
+);
+
+// logout
+router.get("/logout", (req, res, next) => {
+     req.logout((err) => {
+          if (err) {
+               return next(err);
+          }
+          req.flash("success", "Goodbye!");
+          res.redirect("/listings");
+     });
+});
 
 module.exports = router;

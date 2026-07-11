@@ -15,14 +15,14 @@ const listingSchema = new Schema({
     image: {
         filename: {
             type: String,
-            default: "listingimage",
+            default: "Shree Nakodaji",
         },
         url: {
             type: String,
-            default: "https://uc.orez.io/w/files/e228aa2d3a424b00a059a4840de6df34",
+            default: "https://imgs.search.brave.com/d0ySc_qaifu279Xc-7B5zVTHILN2SQwW6BDTybE0Iv8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi8wLzA3L0th/bHBlc2glMkNOYWtv/ZGFfVGlyYXRoXzIw/MDcuSlBHLzUxMnB4/LUthbHBlc2glMkNO/YWtvZGFfVGlyYXRo/XzIwMDcuSlBH",
             set: (v) =>
                 v === ""
-                    ? "https://uc.orez.io/w/files/e228aa2d3a424b00a059a4840de6df34"
+                    ? "https://imgs.search.brave.com/d0ySc_qaifu279Xc-7B5zVTHILN2SQwW6BDTybE0Iv8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy90/aHVtYi8wLzA3L0th/bHBlc2glMkNOYWtv/ZGFfVGlyYXRoXzIw/MDcuSlBHLzUxMnB4/LUthbHBlc2glMkNO/YWtvZGFfVGlyYXRo/XzIwMDcuSlBH"
                     : v,
         },
     },
