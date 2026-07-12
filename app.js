@@ -53,21 +53,22 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.Delet=req.flash("Delet");
-    res.locals.error=req.flash("error");
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.Delet = req.flash("Delet");
+    res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user || null;
     next();
-})
+});
 
-app.get("/registerUser" , async(req,res)=>{
+app.get("/registerUser", async (req, res) => {
     let fakeUser = new User({
-        email:"student@gmail.com",
-        username:"delta-user"
+        email: "student@gmail.com",
+        username: "delta-user"
     });
-    let newUser = await User.register(fakeUser,"hellow");
+    let newUser = await User.register(fakeUser, "hellow");
     res.send(newUser);
-})
+});
 
 app.use("/listings", listingRoughter);
 app.use("/listings/:id/review", reviewRoughter);
@@ -84,7 +85,7 @@ app.use((req, res, next) => {
 });
 app.use((err, req, res, next) => {
 
-    let { status = 500, message = "Something went wrond" } = err;
+    let { status = 500, message = "Something went wrong" } = err;
     // res.status(status).send(message);
     res.status(status).render("error", { message });
 })

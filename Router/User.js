@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router({ mergeParams: true });
 const User = require("../MODELS/user.js")
-
+const {isredirectUrl} = require("../middleware.js");
 // show signup page
 router.get("/signup", (req, res, next) => {
      res.render("User/signup");
@@ -25,7 +25,6 @@ router.post("/signup", async (req, res) => {
                     req.flash("error", err.message);
                     return res.redirect("/signup");
                }
-
                req.flash("success", "Welcome to Wanderlust!");
                res.redirect("/listings");
           });
@@ -43,13 +42,14 @@ router.get("/login", async (req, res, next) => {
 // handle login submission
 router.post(
      "/login",
+     isredirectUrl,
      passport.authenticate("local", {
           failureRedirect: "/login",
           failureFlash: true
      }),
      (req, res) => {
           req.flash("success", "Welcome back!");
-          res.redirect("/listings");
+          res.redirect(res.locals.isredirectUrl || "/listings");
      }
 );
 

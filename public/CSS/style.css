@@ -1,265 +1,289 @@
-/* Reset default browser spacing */
+/* Global page reset and base theme */
+html,
 body {
-  margin: 0;                /* removes default outer space */
-  padding: 0;               /* removes default inner space */
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+}
+
+body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-/* Navbar styling */
+.container {
+  max-width: 1100px;
+  width: 100%;
+}
+
+/* Navbar and footer refinement */
 .navbar {
-  height: 5rem;            /* fixed height for navbar */
+  min-height: 4.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
 }
 
 .navbar-brand {
-  color: rgb(255, 50, 50); /* logo color */
+  color: #ef4444;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
-.nav-link {
-  color: rgb(0, 0, 0);     /* nav links color */
+.navbar-brand i {
+  font-size: 1.2rem;
 }
 
-/* Footer styling */
+.navbar-brand:hover,
+.navbar .nav-link:hover {
+  color: #b91c1c;
+}
+
+.navbar .nav-link {
+  color: #475569;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:focus {
+  color: #111827;
+}
+
+.navbar-toggler {
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
 .footer {
-  background-color: #f7f7f7;
-  text-align: center;
-  padding: 30px 10px 20px; /* more top padding */
-  margin-top: 50px;        /* space above footer */
-  border-top: 1px solid #ddd;
-
-  /* position: fixed; */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-.social-icons {
-  margin-bottom: 10px;       /* space below icons */
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 2.5rem 1rem;
+  color: #475569;
 }
 
-.social-icons i {
-  margin: 0 10px;            /* spacing between icons */
-  font-size: 18px;           /* icon size */
-  cursor: pointer;           /* pointer on hover */
-}
-
-.copyright {
-  margin: 10px 0;            /* vertical spacing */
-  color: #555;               /* grey text */
-}
-
-.links a {
-  margin: 0 8px;             /* spacing between links */
-  text-decoration: none;     /* remove underline */
-  color: #555;               /* grey color */
-}
-
-.links a:hover {
-  text-decoration: underline;/* underline on hover */
-}
-
-/* ===== CARD LAYOUT FIX (IMPORTANT PART) ===== */
-
-/* This makes cards come in proper rows */
-body {
-  text-align: center;        /* centers inline-block cards */
-}
-
-/* Each card */
-.card {
-  display: inline-block;     /* allows cards to sit side by side */
-  width: 18rem;              /* fixed width */
-  margin: 1rem;              /* spacing between cards */
-  vertical-align: top;       /* aligns cards properly in row */
-
-  border-radius: 10px;       /* rounded corners */
-  overflow: hidden;          /* hide extra image */
-  border: none;              /* remove border */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* light shadow */
-  transition: 0.3s ease;     /* smooth hover effect */
-
-  text-align: left;          /* keep text inside left-aligned */
-  background-color: white;   /* clean background */
-}
-
-/* Hover effect */
-.card:hover {
-  transform: scale(1.05);    /* zoom effect */
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* deeper shadow */
-}
-
-/* Image inside card */
-.card-img-top {
-  height: 200px;             /* fixed height */
-  width: 100%;               /* full width */
-  object-fit: cover;         /* prevents stretching */
-}
-
-/* Remove default link style */
-a {
-  text-decoration: none;     /* remove underline */
-  color: black;              /* normal text color */
-}
-/* Logo styling */
-.navbar-brand {
-  color: rgb(255, 50, 50);   /* main red color */
-  font-size: 1.8rem;         /* bigger text */
-  font-weight: bold;         /* bold look */
-  letter-spacing: 1px;       /* spacing between letters */
-  transition: 0.3s ease;     /* smooth hover effect */
-}
-
-/* Hover effect */
-.navbar-brand:hover {
-  color: rgb(200, 0, 0);     /* darker red on hover */
-  transform: scale(1.05);    /* slight zoom */
-}
-/* 111111111 */
-/* Center the heading */
-h2 {
-  margin-top: 20px;
-  text-align: center;
-  color: #222;
-}
-
-/* Style the details list like a card */
-ul {
-  list-style: none;                /* remove bullets */
-  padding: 0;
-  margin: 20px auto;               /* center horizontally */
-  width: 350px;                    /* fixed width */
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
-
-/* Each item */
-li {
-  padding: 12px 15px;
-  border-bottom: 1px solid #eee;   /* divider line */
-  font-size: 15px;
-  color: #444;
-}
-
-/* Remove border from last item */
-li:last-child {
-  border-bottom: none;
-}
-
-/* Buttons container spacing */
-form {
-  display: inline-block;           /* place buttons side by side */
-  margin: 10px 5px;
-}
-
-/* Common button style */
-button {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-/* Edit button */
-form:first-of-type button {
-  background-color: #007bff;
-  color: white;
-}
-
-/* Delete button */
-form:last-of-type button {
-  background-color: #dc3545;
-  color: white;
-}
-
-/* Hover effect */
-button:hover {
-  opacity: 0.85;
-}
-/* input{
-  width: 200px  !important;
-} */
-/* add form */
-/* Heading */
-h1 {
-  text-align: center;
-  margin-top: 10px;
-  color: #222;
-}
-
-/* Form container */
-form {
-  max-width: 600px;              /* controls width */
-  margin: 0 auto;                /* center form */
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
-
-/* Labels */
-.form-label {
-  font-weight: 600;
-  color: #333;
-}
-
-/* Inputs & textarea */
-.form-control {
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-size: 14px;
-  transition: 0.2s ease;
-}
-
-/* Focus effect */
-.form-control:focus {
-  border-color: #ff385c;
-  box-shadow: 0 0 0 2px rgba(255,56,92,0.2);
-  outline: none;
-}
-
-/* Fix spacing (remove need of many <br>) */
-.form-control {
-  margin-bottom: 10px;
-}
-
-/* Align country & location side by side */
-span {
-  display: flex;
-  gap: 10px;
-}
-
-span div {
-  flex: 1;                      /* equal width */
-}
-
-/* Button */
-.btn {
-  width: 100%;
-  background-color: #ff385c;
-  color: white;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: bold;
-  border: none;
-  transition: 0.2s ease;
-}
-
-/* Button hover */
-.btn:hover {
-  background-color: #e03150;
-}
-.add{
-  text-align: center;
-}
-form {
-  display: block;      /* or remove display completely */
-  max-width: 600px;
+.footer-content {
+  max-width: 1100px;
   margin: 0 auto;
-  
+}
+
+.footer p {
+  margin-bottom: 0.25rem;
+}
+
+.footer .footer-links a {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer .footer-links a:hover {
+  color: #111827;
+}
+
+.footer .footer-links {
+  align-items: center;
+}
+
+.footer-icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-icon i {
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.footer-icon:hover {
+  background: #eef2ff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 767px) {
+  .footer-content {
+    text-align: center;
+  }
+
+  .footer .footer-links,
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+/* Card and form surfaces */
+.card,
+.card-custom,
+.review-card {
+  border: none;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1.75rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #111827;
+}
+
+h1 {
+  font-size: clamp(2rem, 2.5vw, 2.5rem);
+  margin-bottom: 1rem;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+p,
+.card-text,
+label,
+small,
+.form-label {
+  color: #4b5563;
+}
+
+.btn-primary,
+.btn-outline-primary,
+.btn-danger,
+.btn-outline-danger {
+  border-radius: 999px;
+  padding: 0.75rem 1.35rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #1f2937;
+  border-color: #1f2937;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #111827;
+  border-color: #111827;
+}
+
+.btn-outline-primary {
+  color: #1f2937;
+  border-color: #1f2937;
+}
+
+.btn-outline-primary:hover {
+  background-color: rgba(31, 41, 55, 0.08);
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.btn-outline-danger {
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.btn-outline-danger:hover {
+  background-color: rgba(220, 38, 38, 0.08);
+}
+
+.form-control,
+.form-select,
+.form-range {
+  border-radius: 0.85rem;
+  border: 1px solid #d1d5db;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  background: #f9fafb;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-range:focus {
+  border-color: #9d174d;
+  box-shadow: 0 0 0 0.25rem rgba(156, 23, 77, 0.14);
+}
+
+.form-label {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.form-text,
+.invalid-feedback,
+.valid-feedback {
+  font-size: 0.9rem;
+}
+
+.review-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.review-badge span {
+  font-weight: 700;
+}
+
+.listing-meta {
+  gap: 1.25rem;
+}
+
+.listing-meta dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #6b7280;
+}
+
+.listing-meta dd {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.alert-no-reviews {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #334155;
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
 }

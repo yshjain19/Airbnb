@@ -1,15 +1,31 @@
 <% layout("layouts/boilerplate") %>
 
-    <body>
-    <% for(let listing of alllistings) { %>
-        <a href="/listings/<%=listing._id%>">
-        <div class="card" style="width: 18rem;">
-            <img src="<%=listing.image.url%>" class="card-img-top" alt="..."> 
-            <div class="card-body">
-                <p class="card-text"><b><%=listing.title%></b></p> 
-                <P> ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> /night</P>
-            </div>
+<div class="py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-4 gap-3">
+        <div>
+            <h1 class="mb-1">Explore listings</h1>
+            <p class="text-muted mb-0">Browse available stays with prices and locations.</p>
         </div>
-        </a>
+        <a href="/listings/new" class="btn btn-primary">Create listing</a>
+    </div>
+
+    <% if (alllistings.length === 0) { %>
+        <div class="alert alert-no-reviews">No listings found yet.</div>
+    <% } %>
+
+    <div class="row g-4">
+        <% for (let listing of alllistings) { %>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+                    <div class="card card-custom h-100 overflow-hidden">
+                        <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 220px;">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2"><%= listing.title %></h5>
+                            <p class="card-text text-muted mb-3">₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> / night</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
         <% } %>
-    </body>
+    </div>
+</div>
