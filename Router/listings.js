@@ -3,20 +3,19 @@ const router = express.Router({ mergeParams: true });
 const Listing = require("../MODELS/listing.js");
 
 const wrapAsync = require("../utils/wrapAsync.js");
-const expressError = require("../utils/expressError.js");
 const { listingsSchema } = require("../schema.js");
-const {isloggidn} = require("../middleware.js");
+const {isloggidn , isredirectUrl , isOwner, validateListing} = require("../middleware.js");
 const passport = require("passport");
 // Validate listing data before saving/updating
 
-const validateListing = (req, res, next) => {
-    let { error } = listingsSchema.validate(req.body);
+// const validateListing = (req, res, next) => {
+//     let { error } = listingsSchema.validate(req.body);
 
-    if (error) {
-        return next(new expressError(400, error.details[0].message));
-    }
-    next();
-}
+//     if (error) {
+//         return next(new expressError(400, error.details[0].message));
+//     }
+//     next();
+// }
 
 // ===================== READ ALL LISTINGS =====================
 
@@ -61,7 +60,7 @@ router.post("/", isloggidn,validateListing ,wrapAsync(async (req, res) => {
 }));
 // ===================== SHOW EDIT FORM =====================
 
-router.get("/:id/edit",isloggidn, wrapAsync(async (req, res) => {
+router.get("/:id/edit", isloggidn, isOwner, wrapAsync(async (req, res) => {
         let { id } = req.params;
         let post = await Listing.findById(id);
         if (!post) {
@@ -71,7 +70,7 @@ router.get("/:id/edit",isloggidn, wrapAsync(async (req, res) => {
         res.render("listings/edit", { post });
     }))
 // ===================== UPDATE LISTING =====================
-router.put("/:id", validateListing,isloggidn, wrapAsync(async (req, res) => {
+router.put("/:id", isloggidn, isOwner, validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let { title, description, image, price, country, location } = req.body;
     await Listing.findByIdAndUpdate(id, {
@@ -86,7 +85,7 @@ router.put("/:id", validateListing,isloggidn, wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 // ===================== DELETE LISTING =====================
-router.delete("/:id",isloggidn,
+router.delete("/:id", isloggidn, isOwner,
     wrapAsync(async (req, res) => {
         let { id } = req.params;
         let data = await Listing.findByIdAndDelete(id);

@@ -1,83 +1,106 @@
 <% layout("layouts/boilerplate") %>
 
-<div class="py-5">
-    <div class="row gx-5 align-items-start">
-        <div class="col-lg-6">
-            <div class="card card-custom overflow-hidden">
-                <img src="<%= data.image.url %>" class="card-img-top" alt="<%= data.title %> image" style="height: 420px;">
-                <div class="card-body">
-                    <h2 class="mb-3"><%= data.title %></h2>
-                    <p class="text-muted mb-4"><%= data.location %>, <%= data.country %></p>
-                    <i><p>Owner: <%= data.owner.username %></p></i>
-                    <p class="fs-5 text-secondary mb-4"><%= data.description %></p>
+    <div class="py-5">
+        <div class="row gx-5 align-items-start">
+            <div class="col-lg-6">
+                <div class="card card-custom overflow-hidden">
+                    <img src="<%= data.image.url %>" class="card-img-top" alt="<%= data.title %> image"
+                        style="height: 420px;">
+                    <div class="card-body">
+                        <h2 class="mb-3">
+                            <%= data.title %>
+                        </h2>
+                        <p class="text-muted mb-4">
+                            <%= data.location %>, <%= data.country %>
+                        </p>
+                        <i>
+                            <p>Owner: <%= data.owner.username %>
+                            </p>
+                        </i>
+                        <p class="fs-5 text-secondary mb-4">
+                            <%= data.description %>
+                        </p>
 
-                    <dl class="row listing-meta mb-4">
-                        <dt class="col-4">Price</dt>
-                        <dd class="col-8">₹ <%= data.price.toLocaleString("en-IN") %></dd>
-                        <dt class="col-4">Location</dt>
-                        <dd class="col-8"><%= data.location %></dd>
-                        <dt class="col-4">Country</dt>
-                        <dd class="col-8"><%= data.country %></dd>
-                    </dl>
-
-                    <div class="d-flex flex-wrap gap-3">
-                        <form method="get" action="/listings/<%= data._id %>/edit">
-                            <button class="btn btn-primary">Edit</button>
-                        </form>
-                        <form method="post" action="/listings/<%= data._id %>?_method=DELETE">
-                            <button class="btn btn-outline-danger">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-6 mt-5 mt-lg-0">
-            <div class="card card-custom p-4">
-                <h3 class="mb-4">Leave a Review</h3>
-                <form action="/listings/<%= data._id %>/review" method="post" novalidate class="needs-validation">
-                    <div class="mb-3">
-                        <label class="form-label">Comment</label>
-                        <textarea class="form-control" rows="5" placeholder="Write your review here..." required name="review[Comment]"></textarea>
-                        <div class="invalid-feedback">Please submit a comment for review.</div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label">Rating: <span id="ratingValue">3</span> ⭐</label>
-                        <input type="range" class="form-range" min="1" max="5" step="1" value="3" id="rating" oninput="ratingValue.innerText=this.value" name="review[rating]">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit Review</button>
-                </form>
-            </div>
-
-            <div class="mt-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="mb-0">Reviews</h3>
-                    <small class="text-muted"><%= data.reviews.length %> total</small>
-                </div>
-
-                <% if (data.reviews.length === 0) { %>
-                    <div class="alert alert-no-reviews">No reviews yet. Be the first to review this listing.</div>
-                <% } %>
-
-                <div class="row g-3">
-                    <% for (let rev of data.reviews) { %>
-                        <div class="col-md-6">
-                            <div class="review-card p-4 h-100">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="mb-0">⭐ <%= rev.rating %>/5</h5>
-                                    <small class="text-muted">Review</small>
-                                </div>
-                                <p class="text-muted mb-4"><%= rev.Comment %></p>
-                                <form method="post" action="/listings/<%= data._id %>/review/<%= rev._id %>?_method=DELETE">
-                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        <dl class="row listing-meta mb-4">
+                            <dt class="col-4">Price</dt>
+                            <dd class="col-8">₹ <%= data.price.toLocaleString("en-IN") %>
+                            </dd>
+                            <dt class="col-4">Location</dt>
+                            <dd class="col-8">
+                                <%= data.location %>
+                            </dd>
+                            <dt class="col-4">Country</dt>
+                            <dd class="col-8">
+                                <%= data.country %>
+                            </dd>
+                        </dl>
+                        <% if(currentUser && data.owner && currentUser._id.equals(data.owner._id)){ %>
+                            <div class="d-flex flex-wrap gap-3">
+                                <form method="get" action="/listings/<%= data._id %>/edit">
+                                    <button class="btn btn-primary">Edit</button>
+                                </form>
+                                <form method="post" action="/listings/<%= data._id %>?_method=DELETE">
+                                    <button class="btn btn-outline-danger">Delete</button>
                                 </form>
                             </div>
+                            <%}%>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="card card-custom p-4">
+                    <h3 class="mb-4">Leave a Review</h3>
+                    <form action="/listings/<%= data._id %>/review" method="post" novalidate class="needs-validation">
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <textarea class="form-control" rows="5" placeholder="Write your review here..." required
+                                name="review[Comment]"></textarea>
+                            <div class="invalid-feedback">Please submit a comment for review.</div>
                         </div>
-                    <% } %>
+
+                        <div class="mb-4">
+                            <label class="form-label">Rating: <span id="ratingValue">3</span> ⭐</label>
+                            <input type="range" class="form-range" min="1" max="5" step="1" value="3" id="rating"
+                                oninput="ratingValue.innerText=this.value" name="review[rating]">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="mb-0">Reviews</h3>
+                        <small class="text-muted">
+                            <%= data.reviews.length %> total
+                        </small>
+                    </div>
+
+                    <% if (data.reviews.length===0) { %>
+                        <div class="alert alert-no-reviews">No reviews yet. Be the first to review this listing.</div>
+                        <% } %>
+
+                            <div class="row g-3">
+                                <% for (let rev of data.reviews) { %>
+                                    <div class="col-md-6">
+                                        <div class="review-card p-4 h-100">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="mb-0">⭐ <%= rev.rating %>/5</h5>
+                                                <small class="text-muted">Review</small>
+                                            </div>
+                                            <p class="text-muted mb-4">
+                                                <%= rev.Comment %>
+                                            </p>
+                                            <form method="post"
+                                                action="/listings/<%= data._id %>/review/<%= rev._id %>?_method=DELETE">
+                                                <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
