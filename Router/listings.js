@@ -32,7 +32,7 @@ router.get("/new",isloggidn ,(req, res) => {
 // ===================== SHOW SINGLE LISTING =====================
 router.get("/:id",wrapAsync(async (req, res) => {
         let { id } = req.params;
-        let data = await Listing.findById(id).populate("reviews");
+        let data = await Listing.findById(id).populate("reviews").populate("owner");
         if (!data) {
             req.flash("error", " Listing you requested does not exist!");
             return res.redirect("/listings");
@@ -42,6 +42,7 @@ router.get("/:id",wrapAsync(async (req, res) => {
     }))
 // ===================== CREATE NEW LISTING =====================
 router.post("/", isloggidn,validateListing ,wrapAsync(async (req, res) => {
+    console.log(req.user)
     let { title, description, image, price, country, location } = req.body;
 
     let sample = new Listing({
@@ -50,6 +51,7 @@ router.post("/", isloggidn,validateListing ,wrapAsync(async (req, res) => {
         price: price,
         location: location,
         country: country,
+        owner: req.user._id,
     })
 
     await sample.save();
