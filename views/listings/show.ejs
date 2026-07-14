@@ -14,7 +14,7 @@
                             <%= data.location %>, <%= data.country %>
                         </p>
                         <i>
-                            <p>Owner: <%= data.owner.username %>
+                            <p>Owner: <%= data.owner ? data.owner.username : 'Unknown owner' %>
                             </p>
                         </i>
                         <p class="fs-5 text-secondary mb-4">
@@ -47,8 +47,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-6 mt-5 mt-lg-0">
+                <% if(currentUser) {%>
                 <div class="card card-custom p-4">
                     <h3 class="mb-4">Leave a Review</h3>
                     <form action="/listings/<%= data._id %>/review" method="post" novalidate class="needs-validation">
@@ -68,6 +68,7 @@
                         <button type="submit" class="btn btn-primary">Submit Review</button>
                     </form>
                 </div>
+                <% } %>
 
                 <div class="mt-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -85,11 +86,16 @@
                                 <% for (let rev of data.reviews) { %>
                                     <div class="col-md-6">
                                         <div class="review-card p-4 h-100">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h5 class="mb-0">⭐ <%= rev.rating %>/5</h5>
-                                                <small class="text-muted">Review</small>
+                                            <div class="review-card-header d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                                                <div class="review-card-author">
+                                                    <span><%= rev.author ? rev.author.username : 'Anonymous' %></span>
+                                                </div>
+                                                <div class="review-card-meta d-flex align-items-center gap-3">
+                                                    <span class="badge review-rating">⭐ <%= rev.rating %>/5</span>
+                                                    <small class="text-muted">Review</small>
+                                                </div>
                                             </div>
-                                            <p class="text-muted mb-4">
+                                            <p class="review-card-text text-muted mb-4">
                                                 <%= rev.Comment %>
                                             </p>
                                             <form method="post"

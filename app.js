@@ -5,9 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require('method-override');
 const Listing = require("./MODELS/listing.js");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync.js");
 const expressError = require("./utils/expressError.js");
-const { listingsSchema, reviewSchema } = require("./schema.js");
 const Reviews = require("./MODELS/reviews.js");
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -89,7 +87,8 @@ app.use((err, req, res, next) => {
     // res.status(status).send(message);
     res.status(status).render("error", { message });
 })
-app.listen(3000, () => {
-    console.log("app is listening");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`app is listening on port ${PORT}`);
 })
 

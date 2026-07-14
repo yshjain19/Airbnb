@@ -3,19 +3,8 @@ const router = express.Router({ mergeParams: true });
 const Listing = require("../MODELS/listing.js");
 
 const wrapAsync = require("../utils/wrapAsync.js");
-const { listingsSchema } = require("../schema.js");
 const {isloggidn , isredirectUrl , isOwner, validateListing} = require("../middleware.js");
-const passport = require("passport");
-// Validate listing data before saving/updating
 
-// const validateListing = (req, res, next) => {
-//     let { error } = listingsSchema.validate(req.body);
-
-//     if (error) {
-//         return next(new expressError(400, error.details[0].message));
-//     }
-//     next();
-// }
 
 // ===================== READ ALL LISTINGS =====================
 
@@ -31,7 +20,8 @@ router.get("/new",isloggidn ,(req, res) => {
 // ===================== SHOW SINGLE LISTING =====================
 router.get("/:id",wrapAsync(async (req, res) => {
         let { id } = req.params;
-        let data = await Listing.findById(id).populate("reviews").populate("owner");
+        let data = await Listing.findById(id).populate({path:"reviews",populate:{ path:"author"}}).populate("owner");
+        console.log(data);
         if (!data) {
             req.flash("error", " Listing you requested does not exist!");
             return res.redirect("/listings");
@@ -41,7 +31,7 @@ router.get("/:id",wrapAsync(async (req, res) => {
     }))
 // ===================== CREATE NEW LISTING =====================
 router.post("/", isloggidn,validateListing ,wrapAsync(async (req, res) => {
-    console.log(req.user)
+    // console.log(req.user)
     let { title, description, image, price, country, location } = req.body;
 
     let sample = new Listing({

@@ -43,11 +43,12 @@ const listingSchema = new Schema({
     reviews: [
         {
             type: Schema.Types.ObjectId,
-            ref: reviews,}
+            ref: "Review"
+        }
     ],
     owner: {
         type: Schema.Types.ObjectId,
-        ref: user,
+        ref: "User"
     }
 });
 

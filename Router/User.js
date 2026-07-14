@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router({ mergeParams: true });
 const User = require("../MODELS/user.js")
-const {isredirectUrl} = require("../middleware.js");
+const {isredirectUrl, isloggidn} = require("../middleware.js");
 // show signup page
 router.get("/signup", (req, res, next) => {
      res.render("User/signup");
@@ -54,7 +54,7 @@ router.post(
 );
 
 // logout
-router.get("/logout", (req, res, next) => {
+router.get("/logout",isloggidn, (req, res, next) => {
      req.logout((err) => {
           if (err) {
                return next(err);
