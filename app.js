@@ -1,5 +1,12 @@
+
+//it is workk by using dotenv package to load environment variables from a .env file into process.env. This is useful for keeping sensitive information like API keys and database credentials out of your source code, especially in production environments. The code checks if the NODE_ENV environment variable is not set to "production", and if so, it loads the variables from the .env file using require("dotenv").config().
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
+console.log(process.env.Cloud_Name);
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
@@ -13,6 +20,8 @@ const UserRoughter = require("./Router/User.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./MODELS/user.js");
+const multer = require("multer");
+const upload = multer({ dest: "public/images" });
 main()
     .then(() => {
         console.log("connection successful")
@@ -68,10 +77,10 @@ app.get("/registerUser", async (req, res) => {
 
 app.use("/listings", listingRoughter);
 app.use("/listings/:id/review", reviewRoughter);
-app.use("/",UserRoughter);
+app.use("/", UserRoughter);
 
 app.get("/", (req, res) => {
-    
+
     res.send("workin");
 });
 

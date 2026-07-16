@@ -5,24 +5,22 @@ const usersController = require("../Controllers/users.js");
 const { isredirectUrl, isloggidn } = require("../middleware.js");
 
 // show signup page
-router.get("/signup", usersController.renderRegister);
+// signup routes
+router.route("/signup")
+     .get(usersController.renderRegister)
+     .post(usersController.createUser);
 
-// save signup information
-router.post("/signup", usersController.createUser);
-
-// show login page
-router.get("/login", usersController.renderLogin);
-
-// handle login submission
-router.post(
-     "/login",
-     isredirectUrl,
-     passport.authenticate("local", {
-          failureRedirect: "/login",
-          failureFlash: true
-     }),
-     usersController.loginUser
-);
+// login routes
+router.route("/login")
+     .get(usersController.renderLogin)
+     .post(
+          isredirectUrl,
+          passport.authenticate("local", {
+               failureRedirect: "/login",
+               failureFlash: true
+          }),
+          usersController.loginUser
+     );
 
 // logout
 router.get("/logout", isloggidn, usersController.logout);
