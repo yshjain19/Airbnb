@@ -1,12 +1,11 @@
 
 //it is workk by using dotenv package to load environment variables from a .env file into process.env. This is useful for keeping sensitive information like API keys and database credentials out of your source code, especially in production environments. The code checks if the NODE_ENV environment variable is not set to "production", and if so, it loads the variables from the .env file using require("dotenv").config().
 if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
+    require("dotenv").config({ quiet: true });
 }
 
 const express = require("express");
 const app = express();
-console.log(process.env.Cloud_Name);
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
@@ -21,7 +20,8 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./MODELS/user.js");
 const multer = require("multer");
-const upload = multer({ dest: "public/images" });
+const { storage } = require("./cloudConfig.js");
+const upload = multer({storage});
 main()
     .then(() => {
         console.log("connection successful")
@@ -66,14 +66,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/registerUser", async (req, res) => {
-    let fakeUser = new User({
-        email: "student@gmail.com",
-        username: "delta-user"
-    });
-    let newUser = await User.register(fakeUser, "hellow");
-    res.send(newUser);
-});
+// app.get("/registerUser", async (req, res) => {
+//     let fakeUser = new User({
+//         email: "student@gmail.com",
+//         username: "delta-user"
+//     });
+//     let newUser = await User.register(fakeUser, "hellow");
+//     res.send(newUser);
+// });
 
 app.use("/listings", listingRoughter);
 app.use("/listings/:id/review", reviewRoughter);

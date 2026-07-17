@@ -23,10 +23,28 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
-    const { title, description, image, price, country, location } = req.body;
+    console.log(req.file);
+    const { title, description, price, country, location, image } = req.body;
+
+    const uploadedImage = req.file
+        ? {
+            filename: req.file.filename,
+            url: req.file.path || req.file.secure_url || req.file.url || "",
+        }
+        : image
+            ? {
+                filename: image.filename || "default-image",
+                url: image.path || image.url || image,
+            }
+            : {
+                filename: "default-image",
+                url: "",
+            };
+
     const sample = new Listing({
         title,
         description,
+        image: uploadedImage,
         price,
         location,
         country,
@@ -34,7 +52,7 @@ module.exports.createListing = async (req, res) => {
     });
 
     await sample.save();
-    req.flash("success", "New post add sucessfully");
+    req.flash("success", "New post added successfully");
     res.redirect("/listings");
 };
 
@@ -50,11 +68,30 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
     const { id } = req.params;
-    const { title, description, image, price, country, location } = req.body;
+    const { title, description, price, country, location, image } = req.body;
+    const existingListing = await Listing.findById(id);
+
+    if (!existingListing) {
+        req.flash("error", "Listing you requested does not exist!");
+        return res.redirect("/listings");
+    }
+
+    const imageData = req.file
+        ? {
+            filename: req.file.filename,
+            url: req.file.path || req.file.secure_url || req.file.url,
+        }
+        : image
+            ? {
+                filename: existingListing.image?.filename || "default-image",
+                url: image,
+            }
+            : existingListing.image;
+
     await Listing.findByIdAndUpdate(id, {
         title,
         description,
-        image: { url: image },
+        image: imageData,
         price,
         country,
         location,
