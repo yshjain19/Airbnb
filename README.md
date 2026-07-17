@@ -1,8 +1,8 @@
-# Airbnb
-A full-stack Airbnb clone web application for booking and listing rental properties with authentication, property management, and responsive UI.
+# PrestigeStay
+A full-stack PrestigeStay clone web application for booking and listing rental properties with authentication, property management, and responsive UI.
 # WanderLust 🏡
 
-A full-stack Airbnb-inspired web application where users can explore, create, edit, and review property listings.
+A full-stack PrestigeStay-inspired web application where users can explore, create, edit, and review property listings.
 
 ## Features ✨
 
