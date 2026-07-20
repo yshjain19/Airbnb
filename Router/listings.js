@@ -10,10 +10,6 @@ const upload = multer({ storage: storage });
 // ===================== LISTINGS COLLECTION =====================
 router.route("/")
   .get(wrapAsync(listingsController.index))
-  // .post(upload.single("image"), (req, res) => {
-  //   console.log(req.file);
-  //   res.json({ message: "POST request received", file: req.file });
-  // });
   .post(isloggidn, upload.single("image"), validateListing, wrapAsync(listingsController.createListing));
 
 // ===================== SHOW NEW LISTING FORM =====================
@@ -28,4 +24,4 @@ router.route("/:id")
 // ===================== SHOW EDIT FORM =====================
 router.get("/:id/edit", isloggidn, isOwner, wrapAsync(listingsController.renderEditForm));
 
-module.exports = router;
+module.exports = router

@@ -1,4 +1,8 @@
 
+// Force Node.js to use Google DNS — fixes querySrv ECONNREFUSED on Windows with certain ISP/router DNS servers
+require("dns").setDefaultResultOrder("ipv4first");
+require("dns").setServers(["8.8.8.8", "8.8.4.4"]);
+
 //it is workk by using dotenv package to load environment variables from a .env file into process.env. This is useful for keeping sensitive information like API keys and database credentials out of your source code, especially in production environments. The code checks if the NODE_ENV environment variable is not set to "production", and if so, it loads the variables from the .env file using require("dotenv").config().
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config({ quiet: true });
@@ -29,7 +33,8 @@ main()
     .catch((err) => { console.log(err) });
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/airbnb")
+    console.log("URI =", process.env.ATLASDB_URI);
+    await mongoose.connect(process.env.ATLASDB_URI);
 }
 
 const sessionOptions = {

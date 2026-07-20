@@ -1,108 +1,115 @@
 <% layout("layouts/boilerplate") %>
 
-<div class="py-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-4 gap-3">
-        <div>
-            <h1 class="mb-1">Explore listings</h1>
-            <p class="text-muted mb-0">Browse available stays with prices and locations.</p>
+    <div class="py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-4 gap-3">
+            <div>
+                <h1 class="mb-1">Explore listings</h1>
+                <p class="text-muted mb-0">Browse available stays with prices and locations.</p>
+            </div>
+            <a href="/listings/new" class="btn btn-primary">Create listing</a>
         </div>
-        <a href="/listings/new" class="btn btn-primary">Create listing</a>
-    </div>
 
-    <div class="filter-panel card mb-4">
-        <form id="listingFilterForm" class="row g-3 align-items-end">
-            <div class="col-12 col-md-4">
-                <label for="filterSearch" class="form-label">Search</label>
-                <input type="text" id="filterSearch" class="form-control" placeholder="Search by title or location">
-            </div>
-            <div class="col-6 col-md-3">
-                <label for="filterLocation" class="form-label">Location</label>
-                <select id="filterLocation" class="form-select">
-                    <option value="">All locations</option>
-                    <% const locations = [...new Set(alllistings.map(listing => listing.location).filter(Boolean))].sort(); %>
-                    <% for (let location of locations) { %>
-                        <option value="<%= location %>"><%= location %></option>
-                    <% } %>
-                </select>
-            </div>
-            <div class="col-6 col-md-3">
-                <label for="filterPrice" class="form-label">Max price</label>
-                <select id="filterPrice" class="form-select">
-                    <option value="">Any price</option>
-                    <option value="5000">Under ₹5,000</option>
-                    <option value="10000">Under ₹10,000</option>
-                    <option value="20000">Under ₹20,000</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-2 d-grid">
-                <button type="button" id="clearFiltersBtn" class="btn btn-outline-primary">Clear</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="icon-bar mb-3 py-2">
-        <div class="d-flex gap-3 align-items-center px-1">
-            <button type="button" class="icon-item btn btn-light" data-keywords="trending">
-                <div class="icon-circle"><i class="fa-solid fa-fire"></i></div>
-                <div class="icon-label">Trending</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="room rooms">
-                <div class="icon-circle"><i class="fa-solid fa-bed"></i></div>
-                <div class="icon-label">Rooms</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="city iconic cities">
-                <div class="icon-circle"><i class="fa-solid fa-city"></i></div>
-                <div class="icon-label">Iconic Cities</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="mountain mountains">
-                <div class="icon-circle"><i class="fa-solid fa-mountain"></i></div>
-                <div class="icon-label">Mountains</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="castle castles">
-                <div class="icon-circle"><i class="fa-solid fa-chess-rook"></i></div>
-                <div class="icon-label">Castles</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="pool pools">
-                <div class="icon-circle"><i class="fa-solid fa-person-swimming"></i></div>
-                <div class="icon-label">Amazing Pools</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="camp camping">
-                <div class="icon-circle"><i class="fa-solid fa-campground"></i></div>
-                <div class="icon-label">Camping</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="farm farms">
-                <div class="icon-circle"><i class="fa-solid fa-tractor"></i></div>
-                <div class="icon-label">Farms</div>
-            </button>
-            <button type="button" class="icon-item btn btn-light" data-keywords="arctic snow">
-                <div class="icon-circle"><i class="fa-solid fa-snowflake"></i></div>
-                <div class="icon-label">Arctic</div>
-            </button>
+        <div class="filter-panel card mb-4">
+            <form id="listingFilterForm" class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label for="filterSearch" class="form-label">Search</label>
+                    <input type="text" id="filterSearch" class="form-control" placeholder="Search by title or location">
+                </div>
+                <div class="col-6 col-md-3">
+                    <label for="filterLocation" class="form-label">Location</label>
+                    <select id="filterLocation" class="form-select">
+                        <option value="">All locations</option>
+                        <% const locations=[...new Set(alllistings.map(listing=>
+                            listing.location).filter(Boolean))].sort(); %>
+                            <% for (let location of locations) { %>
+                                <option value="<%= location %>">
+                                    <%= location %>
+                                </option>
+                                <% } %>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3">
+                    <label for="filterPrice" class="form-label">Max price</label>
+                    <select id="filterPrice" class="form-select">
+                        <option value="">Any price</option>
+                        <option value="5000">Under ₹5,000</option>
+                        <option value="10000">Under ₹10,000</option>
+                        <option value="20000">Under ₹20,000</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 d-grid">
+                    <button type="button" id="clearFiltersBtn" class="btn btn-outline-primary">Clear</button>
+                </div>
+            </form>
         </div>
-    </div>
 
-    <% if (alllistings.length === 0) { %>
-        <div class="alert alert-no-reviews">No listings found yet.</div>
-    <% } %>
+        <div class="icon-bar mb-3 py-2">
+            <div class="d-flex gap-3 align-items-center px-1">
+                <button type="button" class="icon-item btn btn-light" data-keywords="trending">
+                    <div class="icon-circle"><i class="fa-solid fa-fire"></i></div>
+                    <div class="icon-label">Trending</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="room rooms">
+                    <div class="icon-circle"><i class="fa-solid fa-bed"></i></div>
+                    <div class="icon-label">Rooms</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="city iconic cities">
+                    <div class="icon-circle"><i class="fa-solid fa-city"></i></div>
+                    <div class="icon-label">Iconic Cities</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="mountain mountains">
+                    <div class="icon-circle"><i class="fa-solid fa-mountain"></i></div>
+                    <div class="icon-label">Mountains</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="castle castles">
+                    <div class="icon-circle"><i class="fa-solid fa-chess-rook"></i></div>
+                    <div class="icon-label">Castles</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="pool pools">
+                    <div class="icon-circle"><i class="fa-solid fa-person-swimming"></i></div>
+                    <div class="icon-label">Amazing Pools</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="camp camping">
+                    <div class="icon-circle"><i class="fa-solid fa-campground"></i></div>
+                    <div class="icon-label">Camping</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="farm farms">
+                    <div class="icon-circle"><i class="fa-solid fa-tractor"></i></div>
+                    <div class="icon-label">Farms</div>
+                </button>
+                <button type="button" class="icon-item btn btn-light" data-keywords="arctic snow">
+                    <div class="icon-circle"><i class="fa-solid fa-snowflake"></i></div>
+                    <div class="icon-label">Arctic</div>
+                </button>
+            </div>
+        </div>
 
-    <div class="alert alert-info d-none" id="filterEmptyState">No listings match the selected filters.</div>
+        <% if (alllistings.length===0) { %>
+            <div class="alert alert-no-reviews">No listings found yet.</div>
+            <% } %>
 
-    <div class="row g-4">
-        <% for (let listing of alllistings) { %>
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-3 listing-card"
-                data-title="<%= listing.title.toLowerCase() %>"
-                data-location="<%= listing.location.toLowerCase() %>"
-                data-price="<%= listing.price || 0 %>">
-                <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
-                    <div class="card card-custom h-100 overflow-hidden">
-                        <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 220px;">
-                        <div class="card-body">
-                            <h5 class="card-title mb-2"><%= listing.title %></h5>
-                            <p class="card-text text-muted mb-3">₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> / night</p>
+                <div class="alert alert-info d-none" id="filterEmptyState">No listings match the selected filters.</div>
+
+                <div class="row g-4">
+                    <% for (let listing of alllistings) { %>
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 listing-card"
+                            data-title="<%= listing.title.toLowerCase() %>"
+                            data-location="<%= listing.location.toLowerCase() %>" data-price="<%= listing.price || 0 %>"
+                            data-description="<%= listing.description.toLowerCase() %>">
+                            <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+                                <div class="card card-custom h-100 overflow-hidden">
+                                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>"
+                                        style="height: 220px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-2">
+                                            <%= listing.title %>
+                                        </h5>
+                                        <p class="card-text text-muted mb-3">₹ <%= listing.price ?
+                                                listing.price.toLocaleString("en-IN") : "0" %> / night</p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                </a>
-            </div>
-        <% } %>
+                        <% } %>
+                </div>
     </div>
-</div>
