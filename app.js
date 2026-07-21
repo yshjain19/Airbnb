@@ -108,6 +108,11 @@ app.get("/", (req, res) => {
     res.redirect("/listings");
 });
 
+app.get("/sitemap.xml", (req, res) => {
+
+    res.render("sitemap", { layout: false });
+});
+
 
 app.use((req, res, next) => {
     next(new expressError(404, "Page not found"));
