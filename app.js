@@ -7,7 +7,7 @@ require("dns").setServers(["8.8.8.8", "8.8.4.4"]);
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config({ quiet: true });
 }
-
+const { MongoStore } = require('connect-mongo');
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -34,15 +34,34 @@ main()
 
 async function main() {
     console.log("URI =", process.env.ATLASDB_URI);
-    await mongoose.connect(process.env.ATLASDB_URI);
+    await mongoose.connect(process.env.ATLASDB_URI, {
+        tls: true,
+        tlsAllowInvalidCertificates: false,
+    });
 }
 
+const store = MongoStore.create({
+    mongoUrl: process.env.ATLASDB_URI,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: process.env.SECRET
+    }
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})      
+
+
 const sessionOptions = {
-    secret: "mysupersecretstring",
+    store: store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { _expires: Date.now() + 7 * 24 * 60 * 60 * 1000, originalMaxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }
 }
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -86,7 +105,7 @@ app.use("/", UserRoughter);
 
 app.get("/", (req, res) => {
 
-    res.send("workin");
+    res.redirect("/listings");
 });
 
 
