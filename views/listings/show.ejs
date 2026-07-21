@@ -116,10 +116,12 @@
                                                     <p class="review-card-text text-muted mb-4">
                                                         <%= rev.Comment %>
                                                     </p>
-                                                    <form method="post"
-                                                        action="/listings/<%= data._id %>/review/<%= rev._id %>?_method=DELETE">
-                                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
-                                                    </form>
+                                                    <% if(currentUser && rev.author && currentUser._id.equals(rev.author._id)){ %>
+                                                        <form method="post"
+                                                            action="/listings/<%= data._id %>/review/<%= rev._id %>?_method=DELETE">
+                                                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                                        </form>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                             <% } %>
