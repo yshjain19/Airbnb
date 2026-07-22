@@ -132,18 +132,6 @@ http://localhost:3000/listings
 
 ---
 
-## 📸 Screenshots
-
-Add screenshots of your application here.
-
-* Home Page
-* Property Details
-* Login Page
-* Add Listing
-* Review Section
-
----
-
 ## 🔮 Future Improvements
 
 * 🔍 Advanced search and filtering
@@ -161,7 +149,7 @@ Add screenshots of your application here.
 **Yash Jain**
 
 * GitHub: https://github.com/yshjain19
-* LinkedIn: *(Add your LinkedIn profile URL here)*
+* LinkedIn: https://www.linkedin.com/in/yash-jain-6b6647320 
 
 ---
 
