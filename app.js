@@ -23,6 +23,7 @@ const UserRoughter = require("./Router/User.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./MODELS/user.js");
+const Listing = require("./MODELS/listing.js");
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
 const upload = multer({ storage });
@@ -77,6 +78,60 @@ app.engine('ejs', ejsMate);
 app.use(express.json());
 app.use(methodOverride('_method'))
 app.set("views", path.join(__dirname, "views"));
+
+// ===================== DYNAMIC SITEMAP (must be before express.static) =====================
+// Generates a live sitemap.xml by querying MongoDB for all listing IDs.
+// ObjectId timestamps are used for <lastmod> — no extra DB field needed.
+app.get("/sitemap.xml", async (req, res) => {
+    try {
+        const BASE = "https://prestigestay.onrender.com";
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+        // Only fetch _id and updatedAt (ObjectId already contains creation time)
+        const listings = await Listing.find({}).select("_id").lean();
+
+        // Build <url> entries for every listing
+        const listingUrls = listings.map((l) => {
+            // Extract creation date from the ObjectId (12-byte BSON, first 4 bytes = Unix timestamp)
+            const createdAt = l._id.getTimestamp().toISOString().split("T")[0];
+            return `
+  <url>
+    <loc>${BASE}/listings/${l._id}</loc>
+    <lastmod>${createdAt}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+        }).join("");
+
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>${BASE}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>${BASE}/listings</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+${listingUrls}
+</urlset>`;
+
+        res.set("Content-Type", "application/xml; charset=utf-8");
+        // Cache for 1 hour on CDN/proxies so Googlebot isn't hammering the DB
+        res.set("Cache-Control", "public, max-age=3600");
+        res.status(200).send(xml);
+    } catch (err) {
+        console.error("Sitemap generation failed:", err);
+        res.status(500).send("Sitemap temporarily unavailable.");
+    }
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
@@ -108,10 +163,6 @@ app.get("/", (req, res) => {
     res.render("landing", { fullWidth: true });
 });
 
-app.get("/sitemap.xml", (req, res) => {
-
-    res.render("sitemap", { layout: false });
-});
 
 
 app.use((req, res, next) => {
