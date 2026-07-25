@@ -1,0 +1,306 @@
+<% layout("layouts/boilerplate") %>
+
+<!-- ✅ SEO: BreadcrumbList structured data for the home page -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://prestigestay.onrender.com/" }
+  ]
+}
+</script>
+
+<!-- ✅ SEO: FAQPage schema — helps Google show rich snippets & featured answers -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is PrestigeStay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PrestigeStay is an online vacation rental platform where you can discover and book unique holiday stays including beach houses, mountain retreats, city apartments, castles, farms, and more across India and worldwide."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I book a vacation rental on PrestigeStay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simply browse listings on PrestigeStay, choose a stay that matches your preferences for location and price, and create an account to confirm your booking. The process takes just a few minutes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I list my property on PrestigeStay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Any property owner can list their home on PrestigeStay for free. Click 'List Your Place' to get started and start earning from your property."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PrestigeStay free to use for guests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, browsing and discovering stays on PrestigeStay is completely free. There are no hidden fees — the price shown is the price you pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of vacation rentals does PrestigeStay offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PrestigeStay offers a wide variety of unique stays: beach houses, mountain retreats, city apartments, castles, farm stays, camping sites, Arctic cabins, and rooms — for all budgets."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="landing-hero" aria-label="Welcome to PrestigeStay">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge"><i class="fa-solid fa-star" aria-hidden="true"></i> Trusted by 10,000+ travelers</span>
+
+    <!-- ✅ SEO: Primary H1 with core keyword phrase -->
+    <h1 class="hero-headline">
+      Book Unique Vacation Rentals &amp;<br>
+      <span class="hero-accent">Holiday Homes Worldwide</span>
+    </h1>
+
+    <!-- ✅ SEO: Supporting keyword-rich paragraph -->
+    <p class="hero-subtext">
+      Discover thousands of handpicked holiday rentals — beach houses, mountain retreats, city apartments,
+      castles, farm stays, and more. The best vacation home booking platform in India.
+    </p>
+    <div class="hero-actions">
+      <a href="/listings" class="btn-hero-primary" id="hero-explore-btn">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Explore Stays
+      </a>
+      <a href="/listings/new" class="btn-hero-secondary" id="hero-host-btn">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i> List Your Place
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<section class="stats-bar" aria-label="Platform statistics">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number">500+</span>
+        <span class="stat-label">Unique Listings</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Destinations</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <span class="stat-number">10k+</span>
+        <span class="stat-label">Happy Guests</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <span class="stat-number">4.9★</span>
+        <span class="stat-label">Average Rating</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATEGORIES ===== -->
+<!-- ✅ SEO: Uses keyword-rich anchor text links for internal linking -->
+<section class="categories-section container" aria-label="Browse by accommodation type">
+  <div class="section-header">
+    <h2 class="section-title">Browse Vacation Rentals by Category</h2>
+    <p class="section-sub">Every kind of holiday escape, curated for you</p>
+  </div>
+  <nav class="category-grid" aria-label="Rental categories">
+    <a href="/listings?category=trending" class="category-card cat-trending" title="Trending vacation rentals">
+      <div class="cat-icon"><i class="fa-solid fa-fire" aria-hidden="true"></i></div>
+      <span>Trending Stays</span>
+    </a>
+    <a href="/listings?category=mountains" class="category-card cat-mountains" title="Mountain retreat rentals">
+      <div class="cat-icon"><i class="fa-solid fa-mountain" aria-hidden="true"></i></div>
+      <span>Mountain Retreats</span>
+    </a>
+    <a href="/listings?category=castles" class="category-card cat-castles" title="Castle holiday rentals">
+      <div class="cat-icon"><i class="fa-solid fa-chess-rook" aria-hidden="true"></i></div>
+      <span>Castle Stays</span>
+    </a>
+    <a href="/listings?category=pools" class="category-card cat-pools" title="Holiday homes with amazing pools">
+      <div class="cat-icon"><i class="fa-solid fa-person-swimming" aria-hidden="true"></i></div>
+      <span>Pool Villas</span>
+    </a>
+    <a href="/listings?category=camping" class="category-card cat-camping" title="Camping and glamping rentals">
+      <div class="cat-icon"><i class="fa-solid fa-campground" aria-hidden="true"></i></div>
+      <span>Camping &amp; Glamping</span>
+    </a>
+    <a href="/listings?category=farms" class="category-card cat-farms" title="Farm stay holiday rentals">
+      <div class="cat-icon"><i class="fa-solid fa-tractor" aria-hidden="true"></i></div>
+      <span>Farm Stays</span>
+    </a>
+    <a href="/listings?category=arctic" class="category-card cat-arctic" title="Arctic and snow cabin rentals">
+      <div class="cat-icon"><i class="fa-solid fa-snowflake" aria-hidden="true"></i></div>
+      <span>Arctic Cabins</span>
+    </a>
+    <a href="/listings?category=cities" class="category-card cat-cities" title="City apartment vacation rentals">
+      <div class="cat-icon"><i class="fa-solid fa-city" aria-hidden="true"></i></div>
+      <span>City Apartments</span>
+    </a>
+  </nav>
+</section>
+
+<!-- ✅ SEO: Keyword-rich text section for Google to crawl -->
+<section class="seo-text-section container" aria-label="About PrestigeStay vacation rentals">
+  <div class="seo-text-inner">
+    <h2>India's Premier Vacation Rental Platform</h2>
+    <p>
+      PrestigeStay is the go-to platform for finding and booking <strong>unique holiday homes, vacation rentals,
+      and short-term stays</strong> across India and beyond. Whether you're planning a weekend getaway,
+      a family vacation, or a solo adventure, we have the perfect property waiting for you.
+    </p>
+    <p>
+      From <a href="/listings?category=mountains"><strong>mountain retreat cottages</strong></a> in the Himalayas
+      to <a href="/listings?category=pools"><strong>luxury pool villas</strong></a> in Goa,
+      from <a href="/listings?category=farms"><strong>authentic farm stays</strong></a> in rural India to
+      <a href="/listings?category=cities"><strong>city apartments</strong></a> in Mumbai and Delhi —
+      PrestigeStay makes it easy to find accommodation that fits your budget and style.
+    </p>
+    <a href="/listings" class="seo-cta-link">View all vacation rentals →</a>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="why-section" aria-label="Why choose PrestigeStay">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Why Book with PrestigeStay?</h2>
+      <p class="section-sub">We make every holiday stay extraordinary</p>
+    </div>
+    <div class="why-grid">
+      <article class="why-card">
+        <div class="why-icon why-icon--red"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+        <h3>Verified Listings</h3>
+        <p>Every vacation rental is reviewed and verified to ensure quality, safety, and accuracy for all guests.</p>
+      </article>
+      <article class="why-card">
+        <div class="why-icon why-icon--blue"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
+        <h3>24/7 Support</h3>
+        <p>Our dedicated support team is always available to help you before, during, and after your stay.</p>
+      </article>
+      <article class="why-card">
+        <div class="why-icon why-icon--green"><i class="fa-solid fa-tag" aria-hidden="true"></i></div>
+        <h3>Best Price Guarantee</h3>
+        <p>Transparent pricing with no hidden fees. The price you see is the price you pay — always.</p>
+      </article>
+      <article class="why-card">
+        <div class="why-icon why-icon--purple"><i class="fa-solid fa-earth-asia" aria-hidden="true"></i></div>
+        <h3>Worldwide Destinations</h3>
+        <p>From cozy mountain cabins to luxury city penthouses — we have holiday homes everywhere you want to be.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section container" aria-label="How to book a vacation rental">
+  <div class="section-header">
+    <h2 class="section-title">How to Book a Holiday Stay</h2>
+    <p class="section-sub">Your perfect vacation rental in 3 simple steps</p>
+  </div>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-number" aria-hidden="true">01</div>
+      <div class="step-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div>
+      <h3>Search &amp; Discover</h3>
+      <p>Browse our curated collection of unique vacation rentals by location, type, or price range.</p>
+    </div>
+    <div class="how-connector" aria-hidden="true"></div>
+    <div class="how-step">
+      <div class="step-number" aria-hidden="true">02</div>
+      <div class="step-icon"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i></div>
+      <h3>Book Instantly</h3>
+      <p>Choose your holiday home, pick your dates, and reserve your spot in minutes.</p>
+    </div>
+    <div class="how-connector" aria-hidden="true"></div>
+    <div class="how-step">
+      <div class="step-number" aria-hidden="true">03</div>
+      <div class="step-icon"><i class="fa-solid fa-house-chimney" aria-hidden="true"></i></div>
+      <h3>Enjoy Your Stay</h3>
+      <p>Arrive, relax, and create lasting memories in your perfect home away from home.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ SECTION (also powers the FAQPage schema above) ===== -->
+<section class="faq-section" aria-label="Frequently asked questions about vacation rentals">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Everything you need to know about booking with PrestigeStay</p>
+    </div>
+    <div class="faq-list">
+
+      <details class="faq-item" id="faq-what-is">
+        <summary class="faq-question">What is PrestigeStay?</summary>
+        <div class="faq-answer">
+          <p>PrestigeStay is an online <strong>vacation rental booking platform</strong> where you can discover and book unique holiday stays — beach houses, mountain retreats, city apartments, castles, farm stays, and more across India and worldwide.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" id="faq-how-book">
+        <summary class="faq-question">How do I book a vacation rental on PrestigeStay?</summary>
+        <div class="faq-answer">
+          <p>Browse our listings, choose a stay that matches your preferences for location and budget, then create a free account to confirm your booking. The entire process takes just a few minutes.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" id="faq-list-property">
+        <summary class="faq-question">Can I list my property on PrestigeStay?</summary>
+        <div class="faq-answer">
+          <p>Absolutely! Any property owner can <a href="/listings/new">list their home on PrestigeStay for free</a>. Start earning from your property by reaching thousands of travelers looking for holiday rentals.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" id="faq-free">
+        <summary class="faq-question">Is PrestigeStay free for guests?</summary>
+        <div class="faq-answer">
+          <p>Yes, browsing and discovering stays on PrestigeStay is completely free. The price shown on each listing is transparent — no hidden booking fees.</p>
+        </div>
+      </details>
+
+      <details class="faq-item" id="faq-types">
+        <summary class="faq-question">What types of vacation rentals does PrestigeStay offer?</summary>
+        <div class="faq-answer">
+          <p>We offer a wide variety: beach houses, mountain retreats, city apartments, castle stays, farm stays, glamping sites, Arctic cabins, and rooms — for all budgets and group sizes across 50+ destinations.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="cta-section" aria-label="Start hosting your property">
+  <div class="cta-inner container">
+    <div class="cta-text">
+      <h2>Own a Property? Start Earning Today</h2>
+      <p>Join thousands of hosts and earn by listing your property on PrestigeStay — India's fastest growing vacation rental platform.</p>
+    </div>
+    <a href="/listings/new" class="btn-cta" id="cta-host-btn">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i> List Your Property Free
+    </a>
+  </div>
+</section>

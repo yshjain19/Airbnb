@@ -2,7 +2,33 @@ const Listing = require("../MODELS/listing.js");
 
 module.exports.index = async (req, res) => {
     const alllistings = await Listing.find({});
-    res.render("listings/index", { alllistings });
+
+    // ✅ SEO: ItemList structured data for the listings page
+    const itemListJsonLd = `<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Vacation Rentals on PrestigeStay",
+      "description": "Browse unique vacation homes, beach houses, mountain retreats and more.",
+      "numberOfItems": ${alllistings.length},
+      "itemListElement": ${JSON.stringify(
+        alllistings.slice(0, 10).map((l, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": l.title,
+          "url": `https://prestigestay.onrender.com/listings/${l._id}`
+        }))
+      )}
+    }
+    <\/script>`;
+
+    res.render("listings/index", {
+        alllistings,
+        pageTitle: `Vacation Rentals & Holiday Homes | PrestigeStay — ${alllistings.length} Stays`,
+        pageDescription: `Browse ${alllistings.length} unique vacation rentals on PrestigeStay. Beach houses, mountain retreats, castles, farm stays and more. Best prices guaranteed.`,
+        canonicalPath: '/listings',
+        jsonLd: itemListJsonLd
+    });
 };
 
 module.exports.renderNewForm = (req, res) => {
@@ -19,7 +45,45 @@ module.exports.showListing = async (req, res) => {
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings");
     }
-    res.render("listings/show", { data });
+
+    // ✅ SEO: LodgingBusiness structured data for each listing
+    const avgRating = data.reviews.length
+        ? (data.reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / data.reviews.length).toFixed(1)
+        : null;
+
+    const listingJsonLd = `<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": ${JSON.stringify(data.title)},
+      "description": ${JSON.stringify(data.description)},
+      "image": ${JSON.stringify(data.image.url)},
+      "url": "https://prestigestay.onrender.com/listings/${data._id}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": ${JSON.stringify(data.location)},
+        "addressCountry": ${JSON.stringify(data.country)}
+      },
+      "priceRange": "₹${data.price ? data.price.toLocaleString('en-IN') : '0'} per night"
+      ${avgRating ? `,"aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "${avgRating}",
+        "reviewCount": "${data.reviews.length}",
+        "bestRating": "5",
+        "worstRating": "1"
+      }` : ''}
+    }
+    <\/script>`;
+
+    res.render("listings/show", {
+        data,
+        pageTitle: `${data.title} in ${data.location}, ${data.country} | PrestigeStay`,
+        pageDescription: `Book ${data.title} in ${data.location}, ${data.country}. ₹${data.price ? data.price.toLocaleString('en-IN') : '0'} per night. ${data.description.substring(0, 120)}...`,
+        canonicalPath: `/listings/${data._id}`,
+        ogImage: data.image.url,
+        ogType: 'product',
+        jsonLd: listingJsonLd
+    });
 };
 
 module.exports.createListing = async (req, res) => {

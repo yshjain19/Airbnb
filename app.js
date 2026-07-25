@@ -25,7 +25,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./MODELS/user.js");
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");
-const upload = multer({storage});
+const upload = multer({ storage });
 main()
     .then(() => {
         console.log("connection successful")
@@ -50,7 +50,7 @@ const store = MongoStore.create({
 
 store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e)
-})      
+})
 
 
 const sessionOptions = {
@@ -103,9 +103,9 @@ app.use("/listings", listingRoughter);
 app.use("/listings/:id/review", reviewRoughter);
 app.use("/", UserRoughter);
 
+// Root node — Landing page (canonical home)
 app.get("/", (req, res) => {
-
-    res.redirect("/listings");
+    res.render("landing", { fullWidth: true });
 });
 
 app.get("/sitemap.xml", (req, res) => {
