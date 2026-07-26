@@ -33,6 +33,7 @@ main()
     })
     .catch((err) => { console.log(err) });
 
+
 async function main() {
     console.log("URI =", process.env.ATLASDB_URI);
     await mongoose.connect(process.env.ATLASDB_URI, {
@@ -81,30 +82,51 @@ app.set("views", path.join(__dirname, "views"));
 
 // ===================== DYNAMIC SITEMAP (must be before express.static) =====================
 // Generates a live sitemap.xml by querying MongoDB for all listing IDs.
-// ObjectId timestamps are used for <lastmod> — no extra DB field needed.
+// escapeXml sanitizes any special characters in URLs (e.g. & < > " ')
+// updatedAt is used for <lastmod> when available, falls back to ObjectId timestamp.
+
+const escapeXml = (str) => {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+};
+
 app.get("/sitemap.xml", async (req, res) => {
     try {
         const BASE = "https://prestigestay.onrender.com";
+
+        // Fetch _id AND updatedAt — updatedAt gives a more accurate <lastmod>
+        const listings = await Listing.find({})
+            .select("_id updatedAt")
+            .lean();
+
         const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
 
-        // Only fetch _id and updatedAt (ObjectId already contains creation time)
-        const listings = await Listing.find({}).select("_id").lean();
+        const listingUrls = listings
+            .map((listing) => {
+                // Use updatedAt if present, otherwise fall back to ObjectId creation timestamp
+                const lastmod = (
+                    listing.updatedAt || listing._id.getTimestamp()
+                )
+                    .toISOString()
+                    .split("T")[0];
 
-        // Build <url> entries for every listing
-        const listingUrls = listings.map((l) => {
-            // Extract creation date from the ObjectId (12-byte BSON, first 4 bytes = Unix timestamp)
-            const createdAt = l._id.getTimestamp().toISOString().split("T")[0];
-            return `
+                return `
   <url>
-    <loc>${BASE}/listings/${l._id}</loc>
-    <lastmod>${createdAt}</lastmod>
+    <loc>${escapeXml(`${BASE}/listings/${listing._id}`)}</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`;
-        }).join("");
+            })
+            .join("");
 
         const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
     <loc>${BASE}/</loc>
@@ -119,16 +141,18 @@ app.get("/sitemap.xml", async (req, res) => {
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
+
 ${listingUrls}
+
 </urlset>`;
 
-        res.set("Content-Type", "application/xml; charset=utf-8");
-        // Cache for 1 hour on CDN/proxies so Googlebot isn't hammering the DB
-        res.set("Cache-Control", "public, max-age=3600");
+        res.header("Content-Type", "application/xml; charset=utf-8");
+        res.header("Cache-Control", "public, max-age=3600");
         res.status(200).send(xml);
+
     } catch (err) {
         console.error("Sitemap generation failed:", err);
-        res.status(500).send("Sitemap temporarily unavailable.");
+        res.status(500).set("Content-Type", "text/plain").send("Sitemap temporarily unavailable.");
     }
 });
 

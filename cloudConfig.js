@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder: "Yash",
-        allowed_formats: ["jpg", "png", "jpeg"],
+        allowed_formats: ["jpg", "png", "jpeg", "avif", "webp", "mp4"],
     },
 });
 
